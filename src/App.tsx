@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Header from './components/molecules/Header';
+import {UserCtx, UserContextInterface} from "./utils/UserContext";
+import Routes from "./utils/Routes"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(this: any) {
+
+    const [authState] = useState<UserContextInterface>({
+        isAuthenticated: false,
+        currentRole: "unknown"
+    });
+
+    const currentAppContext: UserContextInterface = {
+        isAuthenticated: authState.isAuthenticated,
+        currentRole: authState.currentRole
+    };
+
+    return (<div className="App">
+            <UserCtx.Provider value={currentAppContext}>
+                <Header />
+                <Routes />
+            </UserCtx.Provider>
+        </div>
+    );
 }
 
 export default App;
